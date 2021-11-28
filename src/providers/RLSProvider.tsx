@@ -14,8 +14,8 @@ export const RLSProviderContext = React.createContext<IRLSProviderContext>({
   themes: {
     settings: {
       space: {
-        value: 0.25,
-        unit: 'rem',
+        value: 4,
+        unit: 'px',
       },
     },
     elements: [],

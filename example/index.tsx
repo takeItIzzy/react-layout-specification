@@ -2,15 +2,15 @@ import * as React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import RLSProvider from '@/providers/RLSProvider';
-import RLSWrapper from '../src/components/RLSWrapper';
+import Wrapper from '@/components/Wrapper';
 
 function App() {
   return (
-    <RLSWrapper typeKey="toolbar">
+    <Wrapper typeKey="toolbar">
       <div>111</div>
       <div>222</div>
       <div>333</div>
-    </RLSWrapper>
+    </Wrapper>
   );
 }
 
@@ -27,7 +27,9 @@ ReactDOM.render(
         elements: [
           {
             typeKey: 'toolbar',
+            direction: 'row',
             splitAt: 'search',
+            spacing: 1,
           },
         ],
       }}

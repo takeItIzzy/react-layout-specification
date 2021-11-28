@@ -4,7 +4,7 @@ import { ThemeType } from '@/components/index.types';
 
 const { useContext } = React;
 
-const useThemes = (typeKey: ThemeType) => {
+const useElementConfig = (typeKey: ThemeType) => {
   const { themes } = useContext(RLSProviderContext);
 
   const elementIndex = themes.elements.findIndex((item) => item.typeKey === typeKey);
@@ -12,6 +12,8 @@ const useThemes = (typeKey: ThemeType) => {
   if (elementIndex !== -1) {
     return themes.elements[elementIndex];
   }
+
+  console.error(`Theme with typeKey ${typeKey} not found`);
 };
 
-export default useThemes;
+export default useElementConfig;
