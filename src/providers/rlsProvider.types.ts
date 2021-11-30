@@ -1,5 +1,14 @@
 import { ThemeType } from '@/components/index.types';
 
+interface ISpace {
+  value: number;
+  unit: 'px';
+}
+
+export interface ISettings {
+  space: ISpace;
+}
+
 export type IElementDirection = 'row' | 'column';
 
 export interface IElement {
@@ -29,15 +38,14 @@ export interface IElement {
    * Portrait spacing can be set separately, consistent with 'spacing' by default
    */
   portraitSpacing?: number;
+  /**
+   * todo
+   */
+  order?: ThemeType[];
 }
 
 export interface Themes {
-  settings: {
-    space: {
-      value: number;
-      unit: 'px';
-    };
-  };
+  settings: ISettings;
   /**
    * A collection of element types that may exist in the system
    */

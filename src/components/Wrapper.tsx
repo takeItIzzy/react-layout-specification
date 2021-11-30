@@ -5,7 +5,7 @@ import dict from '@/utils/dict';
 import { IComponentBaseProps } from './index.types';
 
 const Wrapper: React.FC<IComponentBaseProps> = (props) => {
-  const { children, typeKey } = props;
+  const { className, children, typeKey } = props;
 
   const config = useElementConfig(typeKey);
 
@@ -17,7 +17,7 @@ const Wrapper: React.FC<IComponentBaseProps> = (props) => {
 
   const { direction, align } = config;
 
-  const className = () => {
+  const classNames = () => {
     const flexDirection = direction
       ? dict(
           {
@@ -37,10 +37,10 @@ const Wrapper: React.FC<IComponentBaseProps> = (props) => {
           align
         )
       : '';
-    return `flex ${flexDirection} ${justifyContent}`;
+    return `flex ${flexDirection} ${justifyContent} ${className}`;
   };
 
-  return <div className={className()}>{childrenWithSpacer}</div>;
+  return <div className={classNames()}>{childrenWithSpacer}</div>;
 };
 
 export default Wrapper;

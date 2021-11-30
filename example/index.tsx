@@ -3,13 +3,16 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import RLSProvider from '@/providers/RLSProvider';
 import Wrapper from '@/components/Wrapper';
+import Content from '@/components/Content';
 
 function App() {
   return (
-    <Wrapper typeKey="toolbar">
-      <div>111</div>
-      <div>222</div>
-      <div>333</div>
+    <Wrapper typeKey="toolbar" className="h-[500px]">
+      <Content typeKey="content1">111</Content>
+      <Content typeKey="content2">222</Content>
+      <Content typeKey="search">
+        <input type="text" className="border border-black" />
+      </Content>
     </Wrapper>
   );
 }
@@ -27,7 +30,6 @@ ReactDOM.render(
         elements: [
           {
             typeKey: 'toolbar',
-            direction: 'row',
             splitAt: 'search',
             spacing: 1,
           },

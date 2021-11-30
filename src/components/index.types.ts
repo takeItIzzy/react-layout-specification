@@ -14,4 +14,5 @@ export type ThemeType = ThemeTypeKey['value'];
 export interface IComponentBaseProps {
   children: React.ReactNode;
   typeKey: ThemeType;
+  className?: string;
 }
