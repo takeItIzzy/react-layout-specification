@@ -32,6 +32,7 @@ ReactDOM.render(
             typeKey: 'toolbar',
             splitAt: 'search',
             spacing: 1,
+            order: ['content2', 'content1', 'search'],
           },
         ],
       }}

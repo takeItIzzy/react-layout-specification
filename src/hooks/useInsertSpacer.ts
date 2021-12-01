@@ -13,20 +13,31 @@ const spacerSize: (settings: ISettings, spacing?: number) => string = (settings,
   return `${spaceSize}${spaceUnit}`;
 };
 
-const useInsertSpacer: (children: React.ReactNode, config?: IElement) => React.ReactNode = (
+const orderChildren: (children: any[], config: IElement) => React.ReactNode[] = (
   children,
   config
 ) => {
-  if (!config || !Array.isArray(children)) {
+  const { order } = config;
+  if (!order) {
     return children;
   }
 
-  const { direction, spacing, portraitSpacing, splitAt } = config;
+  return order.map((key: string) => {
+    const child = children.find((child: any) => child.props.typeKey === key);
+    if (!child) {
+      return null;
+    }
 
-  const spacingSize = direction === 'row' ? spacing : portraitSpacing ?? spacing;
-  const settings = useSettings();
+    return child;
+  });
+};
 
-  // insert Spacer between each child
+const insertSpacerBetweenEachChild: (
+  children: any[],
+  spacerSize: string,
+  config: IElement
+) => React.ReactNode[] = (children, spacerSize, config) => {
+  const { direction, splitAt } = config;
   return children.reduce((acc, child, index) => {
     if (index === 0) {
       return acc.concat([child]);
@@ -37,13 +48,33 @@ const useInsertSpacer: (children: React.ReactNode, config?: IElement) => React.R
         {
           key: `spacer-${index}`,
           direction,
-          size: child.props.typeKey === splitAt ? FULL_SPACER : spacerSize(settings, spacingSize),
+          size: child.props.typeKey === splitAt ? FULL_SPACER : spacerSize,
         },
         null
       ),
       child,
     ]);
   }, []);
+};
+
+const useInsertSpacer: (children: React.ReactNode, config?: IElement) => React.ReactNode = (
+  children,
+  config
+) => {
+  if (!config || !Array.isArray(children)) {
+    return children;
+  }
+
+  const { direction, spacing, portraitSpacing } = config;
+
+  const spacingSize = direction === 'row' ? spacing : portraitSpacing ?? spacing;
+  const settings = useSettings();
+
+  return insertSpacerBetweenEachChild(
+    orderChildren(children, config),
+    spacerSize(settings, spacingSize),
+    config
+  );
 };
 
 export default useInsertSpacer;
