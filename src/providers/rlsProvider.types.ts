@@ -39,7 +39,7 @@ export interface IElement {
    */
   portraitSpacing?: number;
   /**
-   * todo
+   * Children will sort by this field.
    */
   order?: ThemeType[];
 }
