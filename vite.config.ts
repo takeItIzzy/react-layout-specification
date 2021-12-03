@@ -10,4 +10,20 @@ export default defineConfig({
     },
   },
   plugins: [react()],
+  build: {
+    lib: {
+      entry: path.resolve(__dirname, './src/index.ts'),
+      name: 'lib',
+      fileName: (format) => `lib.${format}.js`,
+    },
+    rollupOptions: {
+      external: ['react', 'react-dom'],
+      output: {
+        globals: {
+          react: 'React',
+          'react-dom': 'ReactDOM',
+        },
+      },
+    },
+  },
 });

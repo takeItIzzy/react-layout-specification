@@ -1,6 +1,15 @@
 {
   "name": "react-layout-specification",
-  "version": "0.0.0",
+  "version": "0.0.1",
+  "files": ["dist"],
+  "main": "./dist/lib.umd.js",
+  "module": "./dist/lib.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/lib.es.js",
+      "require": "./dist/lib.umd.js"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
