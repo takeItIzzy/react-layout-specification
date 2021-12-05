@@ -42,6 +42,7 @@ export interface IElement {
    * Children will sort by this field.
    */
   order?: ThemeType[];
+  className?: string;
 }
 
 export interface Themes {
