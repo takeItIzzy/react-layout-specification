@@ -6,7 +6,7 @@ import get from 'lodash-es/get';
 import { FULL_SPACER } from '@/constants';
 
 // How wide each spacer is
-const spacerSize: (settings: ISettings, spacing?: number) => string = (settings, spacing) => {
+const spacerWide: (settings: ISettings, spacing?: number) => string = (settings, spacing) => {
   const spaceSize = get(settings, 'space.value', 0) * (spacing ?? 0);
   const spaceUnit = get(settings, 'space.unit', 'px');
 
@@ -22,21 +22,23 @@ const orderChildren: (children: any[], config: IElement) => React.ReactNode[] = 
     return children;
   }
 
-  return order.map((key: string) => {
-    const child = children.find((child: any) => child.props.typeKey === key);
-    if (!child) {
-      return null;
-    }
+  return order
+    .map((key: string) => {
+      const child = children.find((child: any) => child.props.typeKey === key);
+      if (!child) {
+        return null;
+      }
 
-    return child;
-  });
+      return child;
+    })
+    .filter((child: any) => !!child);
 };
 
 const insertSpacerBetweenEachChild: (
   children: any[],
-  spacerSize: string,
+  spacerWide: string,
   config: IElement
-) => React.ReactNode[] = (children, spacerSize, config) => {
+) => React.ReactNode[] = (children, spacerWide, config) => {
   const { direction, splitAt } = config;
   return children.reduce((acc, child, index) => {
     if (index === 0) {
@@ -48,7 +50,7 @@ const insertSpacerBetweenEachChild: (
         {
           key: `spacer-${index}`,
           direction,
-          size: child.props.typeKey === splitAt ? FULL_SPACER : spacerSize,
+          size: child.props.typeKey === splitAt ? FULL_SPACER : spacerWide,
         },
         null
       ),
@@ -72,7 +74,7 @@ const useInsertSpacer: (children: React.ReactNode, config?: IElement) => React.R
 
   return insertSpacerBetweenEachChild(
     orderChildren(children, config),
-    spacerSize(settings, spacingSize),
+    spacerWide(settings, spacingSize),
     config
   );
 };
