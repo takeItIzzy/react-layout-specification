@@ -1,6 +1,6 @@
 {
   "name": "react-layout-specification",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "files": [
     "dist"
   ],
@@ -15,7 +15,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
     "@types/lodash-es": "^4.17.5",
@@ -25,16 +27,21 @@
     "react-dom": "^17.0.0"
   },
   "devDependencies": {
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/react-hooks": "^7.0.2",
+    "@types/jest": "^27.0.3",
     "@types/lodash": "^4.14.177",
     "@types/node": "^16.11.10",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@vitejs/plugin-react": "^1.0.0",
     "autoprefixer": "^10.4.0",
+    "jest": "^27.4.3",
     "postcss": "^8.4.4",
     "prettier": "^2.5.0",
     "rollup-plugin-visualizer": "^5.5.2",
     "tailwindcss": "^2.2.19",
+    "ts-jest": "^27.1.0",
     "typescript": "^4.3.2",
     "vite": "^2.6.4"
   }
