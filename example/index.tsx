@@ -13,6 +13,8 @@ function App() {
       <Content typeKey="search">
         <input type="text" className="border border-black" />
       </Content>
+      <Content typeKey="content3">333</Content>
+      <Content typeKey="content4">444</Content>
     </Wrapper>
   );
 }
@@ -32,7 +34,7 @@ ReactDOM.render(
             typeKey: 'toolbar',
             splitAt: 'search',
             spacing: 1,
-            order: ['content2', 'content1', 'content3', 'search'],
+            order: ['content2', 'content1', 'content3', 'search', 'content4'],
           },
         ],
       }}

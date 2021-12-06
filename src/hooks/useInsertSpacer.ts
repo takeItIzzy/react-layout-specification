@@ -13,6 +13,10 @@ const spacerWide: (settings: ISettings, spacing?: number) => string = (settings,
   return `${spaceSize}${spaceUnit}`;
 };
 
+const filterValidElements = (children: any[]) => {
+  return children.filter((child) => React.isValidElement(child));
+};
+
 const orderChildren: (children: any[], config: IElement) => React.ReactNode[] = (
   children,
   config
@@ -24,7 +28,7 @@ const orderChildren: (children: any[], config: IElement) => React.ReactNode[] = 
 
   return order
     .map((key: string) => {
-      const child = children.find((child: any) => child.props.typeKey === key);
+      const child = children.find((child: any) => child?.props.typeKey === key);
       if (!child) {
         return null;
       }
@@ -73,7 +77,7 @@ const useInsertSpacer: (children: React.ReactNode, config?: IElement) => React.R
   const settings = useSettings();
 
   return insertSpacerBetweenEachChild(
-    orderChildren(children, config),
+    orderChildren(filterValidElements(children), config),
     spacerWide(settings, spacingSize),
     config
   );
