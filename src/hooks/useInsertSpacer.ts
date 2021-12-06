@@ -53,23 +53,32 @@ const insertSpacerBetweenEachChild: (
   spacerWide: string,
   config: IElement
 ) => React.ReactNode[] = (children, spacerWide, config) => {
-  const { direction, splitAt } = config;
+  const { direction } = config;
+  let hasSetFullSpacer = false;
+
   return children.reduce((acc, child, index) => {
-    if (index === 0 && !elementsBehindSplitAt(config).includes(child.props.typeKey)) {
+    const isInEndChild = elementsBehindSplitAt(config).includes(child.props.typeKey);
+    if (index === 0 && !isInEndChild) {
       return acc.concat([child]);
     }
-    return acc.concat([
+    const next = acc.concat([
       React.createElement(
         Spacer,
         {
           key: `spacer-${index}`,
           direction,
-          size: child.props.typeKey === splitAt ? FULL_SPACER : spacerWide,
+          size: isInEndChild && !hasSetFullSpacer ? FULL_SPACER : spacerWide,
         },
         null
       ),
       child,
     ]);
+
+    if (isInEndChild) {
+      hasSetFullSpacer = true;
+    }
+
+    return next;
   }, []);
 };
 
