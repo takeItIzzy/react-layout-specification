@@ -14,8 +14,25 @@ const spacerWide: (settings: ISettings, spacing?: number) => string = (settings,
   return `${spaceSize}${spaceUnit}`;
 };
 
-const filterValidElements = (children: any[]) => {
-  return children.filter((child) => React.isValidElement(child));
+const flatChildrenByFragment = (children: any) => {
+  return children.reduce((acc: any[], child: any) => {
+    if (child.type === React.Fragment) {
+      return [
+        ...acc,
+        ...flatChildrenByFragment(
+          Array.isArray(child.props.children) ? child.props.children : [child.props.children]
+        ),
+      ];
+    }
+
+    return [...acc, child];
+  }, []);
+};
+
+const filterValidElements = (children: any) => {
+  let childrenArray = flatChildrenByFragment(children);
+
+  return childrenArray.filter((child: any) => React.isValidElement(child));
 };
 
 const orderChildren: (children: any[], config: IElement) => React.ReactNode[] = (
@@ -82,7 +99,7 @@ const insertSpacerBetweenEachChild: (
   }, []);
 };
 
-const useInsertSpacer: (children: React.ReactNode, config?: IElement) => React.ReactNode = (
+const useInsertSpacer: (children: any, config?: IElement) => React.ReactNode = (
   children,
   config
 ) => {
