@@ -4,6 +4,7 @@ import { IElement, ISettings } from '@/providers/rlsProvider.types';
 import useSettings from '@/hooks/useSettings';
 import get from 'lodash-es/get';
 import { FULL_SPACER } from '@/constants';
+import isNil from 'lodash-es/isNil';
 
 // How wide each spacer is
 const spacerWide: (settings: ISettings, spacing?: number) => string = (settings, spacing) => {
@@ -38,6 +39,15 @@ const orderChildren: (children: any[], config: IElement) => React.ReactNode[] = 
     .filter((child: any) => !!child);
 };
 
+const elementsBehindSplitAt = (config: IElement) => {
+  const { splitAt, order } = config;
+  const index = order?.findIndex((key: string) => key === splitAt);
+  if (isNil(index) || index === -1 || isNil(order)) {
+    return [];
+  }
+  return order.slice(index);
+};
+
 const insertSpacerBetweenEachChild: (
   children: any[],
   spacerWide: string,
@@ -45,7 +55,7 @@ const insertSpacerBetweenEachChild: (
 ) => React.ReactNode[] = (children, spacerWide, config) => {
   const { direction, splitAt } = config;
   return children.reduce((acc, child, index) => {
-    if (index === 0) {
+    if (index === 0 && !elementsBehindSplitAt(config).includes(child.props.typeKey)) {
       return acc.concat([child]);
     }
     return acc.concat([
@@ -67,7 +77,7 @@ const useInsertSpacer: (children: React.ReactNode, config?: IElement) => React.R
   children,
   config
 ) => {
-  if (!config || !Array.isArray(children)) {
+  if (!config) {
     return children;
   }
 
@@ -77,7 +87,7 @@ const useInsertSpacer: (children: React.ReactNode, config?: IElement) => React.R
   const settings = useSettings();
 
   return insertSpacerBetweenEachChild(
-    orderChildren(filterValidElements(children), config),
+    orderChildren(filterValidElements(Array.isArray(children) ? children : [children]), config),
     spacerWide(settings, spacingSize),
     config
   );
