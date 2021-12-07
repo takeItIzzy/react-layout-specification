@@ -16,7 +16,7 @@ const spacerWide: (settings: ISettings, spacing?: number) => string = (settings,
 
 const filterValidElements = (children: any) => {
   return children.filter((child: any) => {
-    return React.isValidElement(child);
+    return React.isValidElement(child) && !isNil((child as any).props.children);
   });
 };
 
