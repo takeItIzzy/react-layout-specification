@@ -30,7 +30,10 @@ const filterValidElements = (children: any) => {
 };
 
 const flatChildrenByFragment = (children: any) => {
-  return filterValidElements(children).reduce((acc: any[], child: any) => {
+  return children.reduce((acc: any[], child: any) => {
+    if (Array.isArray(child)) {
+      return [...acc, ...flatChildrenByFragment(child)];
+    }
     if (child.type === React.Fragment) {
       return [
         ...acc,
@@ -121,7 +124,10 @@ const useInsertSpacer: (children: any, config?: IElement) => React.ReactNode = (
   const settings = useSettings();
 
   return insertSpacerBetweenEachChild(
-    orderChildren(flatChildrenByFragment(Array.isArray(children) ? children : [children]), config),
+    orderChildren(
+      filterValidElements(flatChildrenByFragment(Array.isArray(children) ? children : [children])),
+      config
+    ),
     spacerWide(settings, spacingSize),
     config
   );
