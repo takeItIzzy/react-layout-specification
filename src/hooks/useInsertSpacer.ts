@@ -16,7 +16,16 @@ const spacerWide: (settings: ISettings, spacing?: number) => string = (settings,
 
 const filterValidElements = (children: any) => {
   return children.filter((child: any) => {
-    return React.isValidElement(child) && !isNil((child as any).props.children);
+    const childrenValid =
+      React.isValidElement(child.props.children) ||
+      typeof child.props.children === 'string' ||
+      Array.isArray(child.props.children);
+
+    /**
+     * each child should be a jsx
+     * and child's children shouldn't be empty(otherwise there will be two spacers between a 0px width element)
+     */
+    return React.isValidElement(child) && childrenValid;
   });
 };
 
