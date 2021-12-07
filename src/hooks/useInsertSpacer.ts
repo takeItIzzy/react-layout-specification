@@ -53,16 +53,15 @@ const orderChildren: (children: any[], config: IElement) => React.ReactNode[] = 
     return children;
   }
 
-  return order
-    .map((key: string) => {
-      const child = children.find((child: any) => child?.props.typeKey === key);
-      if (!child) {
-        return null;
-      }
+  return order.reduce((acc: any[], key: string) => {
+    // allow the same typeKey
+    const child = children.filter((child: any) => child?.props.typeKey === key);
+    if (child.length > 0) {
+      return [...acc, ...child];
+    }
 
-      return child;
-    })
-    .filter((child: any) => !!child);
+    return acc;
+  }, []);
 };
 
 const elementsBehindSplitAt = (config: IElement) => {
