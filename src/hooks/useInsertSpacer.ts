@@ -16,28 +16,34 @@ const spacerWide: (settings: ISettings, spacing?: number) => string = (settings,
 
 const filterValidElements = (children: any) => {
   return children.filter((child: any) => {
-    const childrenValid =
-      React.isValidElement(child.props.children) ||
-      typeof child.props.children === 'string' ||
-      Array.isArray(child.props.children);
+    const childrenValid = (c: any) => {
+      return (
+        React.isValidElement(c.props.children) ||
+        typeof c.props.children === 'string' ||
+        Array.isArray(c.props.children)
+      );
+    };
 
     /**
      * each child should be a jsx
      * and child's children shouldn't be empty(otherwise there will be two spacers between a 0px width element)
      */
-    return React.isValidElement(child) && childrenValid;
+    return React.isValidElement(child) && childrenValid(child);
   });
 };
 
-const flatChildrenByFragment = (children: any) => {
+/**
+ * Support React.Fragment and array as children
+ */
+const flatChildren = (children: any) => {
   return children.reduce((acc: any[], child: any) => {
     if (Array.isArray(child)) {
-      return [...acc, ...flatChildrenByFragment(child)];
+      return [...acc, ...flatChildren(child)];
     }
-    if (child.type === React.Fragment) {
+    if (child?.type === React.Fragment) {
       return [
         ...acc,
-        ...flatChildrenByFragment(
+        ...flatChildren(
           Array.isArray(child.props.children) ? child.props.children : [child.props.children]
         ),
       ];
@@ -125,7 +131,7 @@ const useInsertSpacer: (children: any, config?: IElement) => React.ReactNode = (
 
   return insertSpacerBetweenEachChild(
     orderChildren(
-      filterValidElements(flatChildrenByFragment(Array.isArray(children) ? children : [children])),
+      filterValidElements(flatChildren(Array.isArray(children) ? children : [children])),
       config
     ),
     spacerWide(settings, spacingSize),
