@@ -1,26 +1,6 @@
-import RLSProvider from '@/providers/RLSProvider';
-import { IElement } from '@/providers/rlsProvider.types';
 import { renderHook } from '@testing-library/react-hooks';
 import useElementConfig from '../useElementConfig';
-
-const wrapper =
-  (element: IElement) =>
-  ({ children }: any) =>
-    (
-      <RLSProvider
-        themes={{
-          settings: {
-            space: {
-              value: 4,
-              unit: 'px',
-            },
-          },
-          elements: [element],
-        }}
-      >
-        {children}
-      </RLSProvider>
-    );
+import wrapper from './wrapper';
 
 describe('hook useElementConfig test', () => {
   afterEach(() => {
@@ -34,7 +14,7 @@ describe('hook useElementConfig test', () => {
       spacing: 3,
     };
     const { result } = renderHook(() => useElementConfig('toolbar'), {
-      wrapper: wrapper(element),
+      wrapper: wrapper([element]),
     });
     expect(result.current).toEqual(element);
   });
@@ -47,7 +27,7 @@ describe('hook useElementConfig test', () => {
     };
     const spy = jest.spyOn(console, 'error');
     const { result } = renderHook(() => useElementConfig('buttonGroup'), {
-      wrapper: wrapper(element),
+      wrapper: wrapper([element]),
     });
     expect(spy).toHaveBeenCalledWith('Theme with typeKey buttonGroup not found');
     expect(result.current).toBeUndefined();
