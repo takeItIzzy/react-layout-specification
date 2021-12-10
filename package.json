@@ -1,6 +1,6 @@
 {
   "name": "react-layout-specification",
-  "version": "0.0.18",
+  "version": "0.1.0",
   "files": [
     "dist"
   ],
@@ -14,7 +14,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc && jest && vite build",
     "serve": "vite preview",
     "test": "jest",
     "test:coverage": "jest --coverage"
@@ -26,6 +26,7 @@
     "react-dom": "^17.0.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/react-hooks": "^7.0.2",
     "@types/jest": "^27.0.3",

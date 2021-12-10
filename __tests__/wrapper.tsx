@@ -1,5 +1,5 @@
 import { IElement } from '@/providers/rlsProvider.types';
-import RLSProvider from '../../providers/RLSProvider';
+import RLSProvider from '@/providers/RLSProvider';
 
 const wrapper =
   (elements: IElement[]) =>

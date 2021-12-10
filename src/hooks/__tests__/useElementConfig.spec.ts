@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
+import wrapper from 'root/__tests__/wrapper';
 import useElementConfig from '../useElementConfig';
-import wrapper from './wrapper';
 
 describe('hook useElementConfig test', () => {
   afterEach(() => {
