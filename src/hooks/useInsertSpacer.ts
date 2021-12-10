@@ -1,6 +1,5 @@
 import * as React from 'react';
 import get from 'lodash/get';
-import isNil from 'lodash/isNil';
 import Spacer from '@/components/Spacer';
 import { IElement, ISettings } from '@/providers/rlsProvider.types';
 import useSettings from '@/hooks/useSettings';
@@ -75,11 +74,23 @@ const orderChildren: (children: any[], config: IElement) => React.ReactNode[] = 
 
 const elementsBehindSplitAt = (config: IElement) => {
   const { splitAt, order } = config;
-  const index = order?.findIndex((key: string) => key === splitAt);
-  if (isNil(index) || index === -1 || isNil(order)) {
+  if (!order) {
     return [];
   }
-  return order.slice(index);
+
+  if (!!splitAt) {
+    const index = order.findIndex((key: string) => key === splitAt);
+    if (index === -1) {
+      return [];
+    }
+    return order.slice(index);
+  }
+
+  const dividerIndex = order.findIndex((key: string) => key === '|');
+  if (dividerIndex === -1) {
+    return [];
+  }
+  return order.slice(dividerIndex + 1);
 };
 
 const insertSpacerBetweenEachChild: (
