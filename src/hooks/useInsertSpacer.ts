@@ -1,5 +1,4 @@
 import * as React from 'react';
-import get from 'lodash/get';
 import Spacer from '@/components/Spacer';
 import { IElement, ISettings } from '@/providers/rlsProvider.types';
 import useSettings from '@/hooks/useSettings';
@@ -7,8 +6,8 @@ import { FULL_SPACER } from '@/constants';
 
 // How wide each spacer is
 const spacerWide: (settings: ISettings, spacing?: number) => string = (settings, spacing) => {
-  const spaceSize = get(settings, 'space.value', 0) * (spacing ?? 0);
-  const spaceUnit = get(settings, 'space.unit', 'px');
+  const spaceSize = (settings?.space?.value ?? 0) * (spacing ?? 0);
+  const spaceUnit = settings?.space?.unit ?? 'px';
 
   return `${spaceSize}${spaceUnit}`;
 };
